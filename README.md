@@ -15,7 +15,7 @@ Este repositório **acompanha o livro**: aqui está o código pronto a gravar, c
 ## Por onde começar
 
 1. Instale o ambiente seguindo o capítulo 4 do livro. As versões exatas estão em [docs/AMBIENTE.md](docs/AMBIENTE.md).
-2. Descarregue este repositório: botão verde **Code → Download ZIP**, e descompacte numa pasta que consiga encontrar.
+2. Nesta revisão, selecione **codex/correcoes-bitvolts** no seletor de branches antes de descarregar. Descarregue este repositório: botão verde **Code → Download ZIP**, e descompacte numa pasta que consiga encontrar.
 3. No Arduino IDE, use **Ficheiro → Abrir** (File → Open) e escolha o arquivo `.ino` da etapa em que está.
 
 > **A pasta tem de ter o mesmo nome do arquivo `.ino`.** É uma regra do Arduino IDE. Não mude o nome das pastas nem tire os arquivos de dentro delas.

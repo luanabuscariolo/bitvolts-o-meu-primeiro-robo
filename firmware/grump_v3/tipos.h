@@ -1,7 +1,6 @@
 /* ============================================================
    nano-grump v3 — tipos.h
-   Os marcadores que o corpo envia ao cérebro, e o estado
-   partilhado entre os dois núcleos.
+   Os marcadores e as expressões usados pelas duas tarefas.
    ============================================================ */
 
 #ifndef TIPOS_H
@@ -33,16 +32,5 @@ enum Expressao {
   OLHOS_OLHANDO_ESQ, OLHOS_OLHANDO_DIR,
   OLHOS_IRRITADO, OLHOS_FELIZ, OLHOS_CANSADO
 };
-
-// Estado que o Core 0 escreve e o Core 1 lê para desenhar o rosto.
-// Não usa fila porque não é um evento: é uma fotografia do agora.
-struct EstadoRobo {
-  float distanciaCm;
-  float tensaoBateria;
-  bool  emMovimento;
-  bool  bateriaFraca;
-};
-
-extern volatile EstadoRobo estadoAtual;
 
 #endif

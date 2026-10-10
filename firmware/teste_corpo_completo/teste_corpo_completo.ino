@@ -1,6 +1,6 @@
 /* ============================================================
    nano-grump v3 — TESTE DO CORPO COMPLETO
-   Um único núcleo. Sem FreeRTOS, sem fila, sem dois cores.
+   Uma rotina loop(). Sem fila e sem duas tarefas de aplicação.
 
    Objetivo: provar que todos os componentes JÁ TESTADOS
    ISOLADAMENTE funcionam bem quando estão todos ligados ao
@@ -56,11 +56,9 @@
 
 #define BAT_R1_KOHM     100.0
 #define BAT_R2_KOHM     47.0
-#define BAT_V_REF       3.3
-#define BAT_ADC_MAX     4095.0
 #define BAT_N_AMOSTRAS  20
 #define BAT_V_FRACA     6.2
-#define BAT_FATOR_CALIB 1.056  // calibrado na Etapa 9: 7,6 real ÷ 7,2 lido
+#define BAT_FATOR_CALIB      1.00   // copie FATOR_CALIB do teste_bateria
 
 Servo servo;
 
@@ -185,10 +183,10 @@ float medirDistanciaCm() {
   digitalWrite(PIN_TRIG, LOW);
 
   unsigned long dur = pulseIn(PIN_ECHO, HIGH, ECHO_TIMEOUT_US);
-  if (dur == 0) return DIST_MAX_CM;
+  if (dur == 0) return -1.0f;
 
   float d = dur / 58.0;
-  if (d < DIST_MIN_CM || d > DIST_MAX_CM) return DIST_MAX_CM;
+  if (d < DIST_MIN_CM || d > DIST_MAX_CM) return -1.0f;
   return d;
 }
 
@@ -209,9 +207,11 @@ float medirNoAngulo(int angulo, int anguloAtual) {
 
 float lerTensaoBateria() {
   long soma = 0;
-  for (int i = 0; i < BAT_N_AMOSTRAS; i++) { soma += analogRead(PIN_BATERIA); delay(2); }
-  float media = soma / (float)BAT_N_AMOSTRAS;
-  float vGpio = (media / BAT_ADC_MAX) * BAT_V_REF;
+  for (int i = 0; i < BAT_N_AMOSTRAS; i++) {
+    soma += analogReadMilliVolts(PIN_BATERIA);
+    delay(2);
+  }
+  float vGpio = (soma / (float)BAT_N_AMOSTRAS) / 1000.0f;
   float fator = BAT_R2_KOHM / (BAT_R1_KOHM + BAT_R2_KOHM);
   return (vGpio / fator) * BAT_FATOR_CALIB;
 }
@@ -243,6 +243,12 @@ void desviarObstaculo() {
   Serial.print(" cm  dir=");
   Serial.print(distDir, 0);
   Serial.println(" cm");
+
+  if (distEsq < 0 || distDir < 0) {
+    mostrarNoDisplay(OLHOS_CANSADO, "sem leitura valida.", "confira o sensor.");
+    Serial.println("Varredura sem leitura válida; motores parados.");
+    return;
+  }
 
   if (distEsq < DIST_OBSTACULO_CM && distDir < DIST_OBSTACULO_CM) {
     tentativasPreso++;
@@ -279,6 +285,7 @@ void desviarObstaculo() {
 
 bool obstaculoAnterior = false;
 unsigned long ultimaLeituraBat = 0;
+bool bateriaVerificada = false;
 
 void setup() {
   Serial.begin(115200);
@@ -287,7 +294,7 @@ void setup() {
   Serial.println();
   Serial.println("==================================================");
   Serial.println("  nano-grump v3 — TESTE DO CORPO COMPLETO");
-  Serial.println("  (um nucleo so — sem FreeRTOS)");
+  Serial.println("  (uma rotina loop — sem duas tarefas de aplicacao)");
   Serial.println("==================================================");
   Serial.println("Rodas no ar? Confirme antes de continuar.");
 
@@ -306,6 +313,7 @@ void setup() {
   pinMode(PIN_LED_AMARELOS, OUTPUT);
 
   analogReadResolution(12);
+  analogSetPinAttenuation(PIN_BATERIA, ADC_11db);
 
   servo.setPeriodHertz(50);
   servo.attach(PIN_SERVO, 500, 2400);
@@ -326,14 +334,20 @@ void setup() {
 }
 
 void loop() {
-  // Bateria a cada 5 s
-  if (millis() - ultimaLeituraBat > 5000) {
-    // Para os motores por um instante antes de medir. Sem isto,
-    // lê-se a tensão em plena queda sob carga, que é sempre
-    // muito mais baixa do que a tensão real da bateria.
+  // Bateria antes do primeiro movimento e depois a cada 5 s.
+  if (!bateriaVerificada || millis() - ultimaLeituraBat >= 5000) {
+    // Compara motores parados e em movimento. Ambas as leituras
+    // são tensões reais em condições diferentes; rodas suspensas.
     motoresParar();
     delay(250);                       // deixa a tensão recuperar
     float vRepouso = lerTensaoBateria();
+
+    if (vRepouso < BAT_V_FRACA) {
+      ledsParar();
+      mostrarNoDisplay(OLHOS_CANSADO, "sem bateria.", "me carregue.");
+      Serial.println("BATERIA FRACA antes do teste de carga — parando.");
+      while (true) { somBateriaFraca(); delay(2500); }
+    }
 
     // Agora mede outra vez com os motores a puxar, para saber
     // o tamanho da queda.
@@ -343,6 +357,7 @@ void loop() {
     motoresParar();
 
     ultimaLeituraBat = millis();
+    bateriaVerificada = true;
 
     Serial.print("Bateria: repouso ");
     Serial.print(vRepouso, 2);
@@ -352,9 +367,9 @@ void loop() {
     Serial.print(vRepouso - vCarga, 2);
     Serial.println(" V");
 
-    // A decisão usa a tensão em repouso, que é a que indica
-    // o estado real da carga.
-    if (vRepouso < BAT_V_FRACA) {
+    // Para também se a tensão cair abaixo do limiar sob esta carga.
+    // Este valor não mede diretamente a porcentagem de carga.
+    if (vCarga < BAT_V_FRACA) {
       motoresParar();
       ledsParar();
       mostrarNoDisplay(OLHOS_CANSADO, "sem bateria.", "me carregue.");
@@ -364,6 +379,14 @@ void loop() {
   }
 
   float d = medirDistanciaCm();
+  if (d < 0) {
+    motoresParar();
+    ledsParar();
+    mostrarNoDisplay(OLHOS_CANSADO, "sem leitura valida.", "confira o sensor.");
+    Serial.println("Sem leitura válida; motores parados.");
+    delay(150);
+    return;
+  }
   bool obstaculo = (d < DIST_OBSTACULO_CM);
 
   Serial.print("Distancia: ");

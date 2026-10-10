@@ -113,7 +113,6 @@ static void motoresParar() {
   analogWrite(PIN_ENB, 0);
   digitalWrite(PIN_IN1, LOW); digitalWrite(PIN_IN2, LOW);
   digitalWrite(PIN_IN3, LOW); digitalWrite(PIN_IN4, LOW);
-  estadoAtual.emMovimento = false;
 }
 
 static void motoresFrente(int vel) {
@@ -121,7 +120,6 @@ static void motoresFrente(int vel) {
   digitalWrite(PIN_IN3, HIGH); digitalWrite(PIN_IN4, LOW);
   analogWrite(PIN_ENA, vel);
   analogWrite(PIN_ENB, vel);
-  estadoAtual.emMovimento = true;
 }
 
 static void motoresRe(int vel) {
@@ -129,7 +127,6 @@ static void motoresRe(int vel) {
   digitalWrite(PIN_IN3, LOW); digitalWrite(PIN_IN4, HIGH);
   analogWrite(PIN_ENA, vel);
   analogWrite(PIN_ENB, vel);
-  estadoAtual.emMovimento = true;
 }
 
 // Curva no próprio eixo: um motor para a frente, outro para trás.
@@ -139,7 +136,6 @@ static void motoresGirarEsquerda(int vel) {
   digitalWrite(PIN_IN3, HIGH); digitalWrite(PIN_IN4, LOW);
   analogWrite(PIN_ENA, vel);
   analogWrite(PIN_ENB, vel);
-  estadoAtual.emMovimento = true;
 }
 
 static void motoresGirarDireita(int vel) {
@@ -147,7 +143,6 @@ static void motoresGirarDireita(int vel) {
   digitalWrite(PIN_IN3, LOW);  digitalWrite(PIN_IN4, HIGH);
   analogWrite(PIN_ENA, vel);
   analogWrite(PIN_ENB, vel);
-  estadoAtual.emMovimento = true;
 }
 
 // ---------- SENSOR ----------
@@ -160,10 +155,10 @@ static float medirDistanciaCm() {
   digitalWrite(PIN_TRIG, LOW);
 
   unsigned long dur = pulseIn(PIN_ECHO, HIGH, ECHO_TIMEOUT_US);
-  if (dur == 0) return DIST_MAX_CM;   // sem eco = caminho livre
+  if (dur == 0) return -1.0f;   // sem eco: distância desconhecida
 
   float d = dur / 58.0;
-  if (d < DIST_MIN_CM || d > DIST_MAX_CM) return DIST_MAX_CM;
+  if (d < DIST_MIN_CM || d > DIST_MAX_CM) return -1.0f;
   return d;
 }
 
@@ -223,6 +218,12 @@ static void desviarObstaculo() {
   Serial.print(distDir, 0);
   Serial.println(" cm");
 
+  if (distEsq < 0 || distDir < 0) {
+    // Não escolhe um lado com base numa leitura que não existe.
+    Serial.println("[corpo] varredura sem leitura válida; motores parados.");
+    return;
+  }
+
   // Os dois lados bloqueados? Conta como tentativa falhada.
   if (distEsq < DIST_OBSTACULO_CM && distDir < DIST_OBSTACULO_CM) {
     tentativasDesvio++;
@@ -257,6 +258,7 @@ static void desviarObstaculo() {
 // ---------- TAREFA PRINCIPAL DO CORE 0 ----------
 
 void tarefaNavegacao(void* param) {
+  ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
   // --- Configuração dos pinos ---
   pinMode(PIN_TRIG, OUTPUT);
   pinMode(PIN_ECHO, INPUT);
@@ -288,17 +290,18 @@ void tarefaNavegacao(void* param) {
 
   bool obstaculoAnterior = false;
   unsigned long ultimaLeituraBat = 0;
+  bool bateriaVerificada = false;
 
   // --- Ciclo infinito ---
   for (;;) {
-    // 1. Bateria (a cada 5 s, não precisa de mais)
-    if (millis() - ultimaLeituraBat > 5000) {
+    // 1. Bateria antes do primeiro movimento e depois a cada 5 s.
+    // Uma manobra em curso pode atrasar esta leitura; não substitui o BMS.
+    if (!bateriaVerificada || millis() - ultimaLeituraBat >= 5000) {
       float v = lerTensaoBateria();
-      estadoAtual.tensaoBateria = v;
       ultimaLeituraBat = millis();
+      bateriaVerificada = true;
 
       if (v < BAT_V_FRACA) {
-        estadoAtual.bateriaFraca = true;
         motoresParar();
         ledsParar();
         enviarMarcador(MARC_BATERIA_FRACA, true);
@@ -314,7 +317,14 @@ void tarefaNavegacao(void* param) {
 
     // 2. Sensor
     float d = medirDistanciaCm();
-    estadoAtual.distanciaCm = d;
+
+    if (d < 0) {
+      motoresParar();
+      ledsParar();
+      Serial.println("[corpo] sem leitura válida; motores parados.");
+      vTaskDelay(pdMS_TO_TICKS(CICLO_NAVEGACAO_MS));
+      continue;
+    }
 
     // 3. Decisão
     bool obstaculo = (d < DIST_OBSTACULO_CM);
@@ -333,8 +343,7 @@ void tarefaNavegacao(void* param) {
     }
 
     // 4. Respira. vTaskDelay cede o núcleo ao FreeRTOS —
-    //    delay() comum também funcionaria, mas isto é o correto
-    //    dentro de uma tarefa.
+    //    No Arduino-ESP32, delay() também cede tempo ao escalonador.
     vTaskDelay(pdMS_TO_TICKS(CICLO_NAVEGACAO_MS));
   }
 }

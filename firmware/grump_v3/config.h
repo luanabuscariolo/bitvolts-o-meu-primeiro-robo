@@ -51,8 +51,6 @@
 #define PIN_BATERIA         1      // ADC1
 #define BAT_R1_KOHM         100.0
 #define BAT_R2_KOHM         47.0
-#define BAT_V_REF           3.3
-#define BAT_ADC_MAX         4095.0
 #define BAT_N_AMOSTRAS      20
 #define BAT_V_FRACA         6.2    // abaixo disto o robô para
 #define BAT_FATOR_CALIB     1.00   // ajuste com o multímetro
@@ -63,7 +61,7 @@
 #define VEL_MANOBRA         200    // curvas precisam de mais força
 #define TEMPO_RE_MS         500
 #define TEMPO_CURVA_MS      450
-#define CICLO_NAVEGACAO_MS  50     // ritmo do Core 0
+#define CICLO_NAVEGACAO_MS  50     // pausa; medições e manobras acrescentam tempo
 
 // Se o robô continuar a ver obstáculo depois de N tentativas
 // seguidas de desvio, considera-se preso.

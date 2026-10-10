@@ -275,6 +275,7 @@ static bool escreverFrase(const char* frase, Expressao e) {
 // ---------- TAREFA PRINCIPAL DO CORE 1 ----------
 
 void tarefaCerebro(void* param) {
+  ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
   pinMode(PIN_LED_AMARELOS, OUTPUT);
   analogWrite(PIN_LED_AMARELOS, 0);
 

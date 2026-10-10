@@ -1,6 +1,6 @@
 # Tabela de todas as ligações
 
-> Apêndice C do livro *BitVolts — O meu primeiro robô*. Em caso de divergência, vale o livro.
+> Apêndice C do livro *BitVolts — O meu primeiro robô*. Use a edição do livro correspondente à branch descarregada. Se uma ligação divergir, interrompa a montagem e confira a correção publicada antes de energizar.
 
 Referência completa, fio a fio. Vale imprimir e riscar cada linha à medida que confirma a ligação no robô.
 
@@ -52,7 +52,7 @@ O GPIO 3 é um pino de configuração de arranque (strapping) e não deve ser tr
 | Ponto | Ligação |
 |---|---|
 | Entrada | LM2596 OUT+ |
-| Saída | Microcontrolador pino 5V |
+| Saída | Microcontrolador pino 5V, somente com USB desconectado |
 | Saída | HC-SR04 VCC |
 | Saída | Servo fio vermelho |
 | Saída | L298N pino 5V |
@@ -140,3 +140,14 @@ O pino 5V passa a ser alimentado pelo LM2596.
 - [Mapa completo dos sinais](diagramas/mapa-sinais.png)
 - [Mapa completo da alimentação](diagramas/mapa-alimentacao.png)
 - [Os quatro nós do barramento](diagramas/quatro-nos.png)
+
+
+No LM2596, **IN+ / IN−** são a entrada da bateria; **OUT+ / OUT−** são a saída regulada de 5 V. Os negativos são comuns neste módulo. Confira as inscrições reais, pois a posição dos terminais varia.
+
+Nos mapas, **L** identifica o retorno da lógica e **P**, o retorno da potência. Uma ponte curta une os dois. Os pontos indicam conexões; arcos sobre outro fio indicam cruzamentos sem contato. Os terminais são ampliados para leitura e não representam a disposição no chassi.
+
+Com USB conectado, mantenha o 5 V externo separado do pino 5V da placa, como descrito em [AMBIENTE.md](../docs/AMBIENTE.md).
+
+Para testar o divisor do ECHO com 5 V, mantenha ECHO e GPIO 5 desconectados dessa entrada temporária. Remova os 5 V e desligue a alimentação antes de fazer a ligação final ao sensor e ao GPIO.
+
+- [Divisor da bateria com retorno e filtro](diagramas/divisor-bateria.png)

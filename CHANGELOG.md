@@ -4,14 +4,22 @@ Correções ao código que acompanha o livro. A versão do repositório correspo
 
 ## [Em revisão] — 2026-10-10
 
+- Teste do servo começa no centro, com limites ampliados manualmente após conferência.
+- Diagnóstico integrado usa a mesma leitura calibrada em milivolts e atenuação dos demais testes.
+- Ausência de eco ou leitura fora da faixa mantém os motores parados, sem presumir caminho livre.
+- Bateria verificada antes do primeiro movimento; diagnóstico interrompido se o limiar for atingido sob carga.
+- Criação das duas tarefas conferida e início coordenado por notificações; motores desabilitados na falha.
+- Removido o estado global sem consumidor e corrigidas as descrições de fila, cooldown e tempo de ciclo.
+
 - O evento de caminho livre permanece pendente até que o envio seja aceito.
 - A escrita do display respeita 21 caracteres por linha, divide palavras longas e continua frases maiores em novas páginas.
 - A seleção aleatória considera o tamanho de cada tabela de frases.
 - A apresentação consulta a fila durante as pausas e a pulsação dos LEDs.
 - O exemplo da fila passa a demonstrar interrupção cooperativa com processamento de 4000 ms e cooldown de 3000 ms; informa falhas de criação da fila e das tarefas.
 
-Verificação desta revisão: testes locais de lógica com periféricos simulados.
-A compilação para ESP32-S3 desta revisão e sua execução no robô ainda não foram repetidas; o registro abaixo corresponde à versão anterior.
+Verificação desta revisão: 13 de 13 sketches compilados para ESP32-S3, com esp32 3.3.11, ESP32Servo 3.2.1 e U8g2 2.36.19. Passaram também 14 cenários de lógica em C++ com periféricos, filas e relógio simulados. Esses cenários não são execução em hardware. A execução desta revisão no robô ainda precisa ser repetida.
+
+Mapas de sinais e alimentação sincronizados com o livro; divisor da bateria inclui BAT−, GND comum e filtro de 100 nF.
 
 ## [1.0.0] — 2026-10-08
 

@@ -1,6 +1,6 @@
 # Ambiente de referência
 
-Todo o código deste repositório foi preparado para estas versões. Com versões mais recentes os programas devem funcionar, mas opções e funções podem mudar. Se a verificação falhar, compare primeiro as versões.
+Todo o código deste repositório foi preparado para estas versões. Outras versões exigem nova verificação: opções e funções podem mudar. Se a verificação falhar, compare primeiro as versões.
 
 ## Software
 
@@ -27,6 +27,7 @@ Em **Ferramentas → Placa → esp32**, escolha **ESP32S3 Dev Module**. Não esc
 | USB Mode | Hardware CDC and JTAG |
 | Flash Size | 16MB |
 | PSRAM | OPI PSRAM |
+| Partition Scheme | Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS) |
 
 Se a sua placa for de outra variante, use o tamanho de flash e o tipo de PSRAM indicados pelo fabricante. Os programas deste livro não precisam de PSRAM.
 
@@ -34,8 +35,10 @@ Se a sua placa for de outra variante, use o tamanho de flash e o tipo de PSRAM i
 
 ## Monitor série
 
-Velocidade **115200** em todos os programas.
+Selecione **115200** no Monitor Série. Essa velocidade deve corresponder à UART quando ela for usada; na USB CDC nativa, não define a velocidade elétrica da USB. Confira também a porta selecionada, o cabo de dados e se a gravação terminou.
 
 ## Ligar a placa
 
 Use a porta marcada **USB** (a nativa do ESP32-S3), com um cabo **de dados**. Se a gravação parar em `Connecting...`, segure o botão **BOOT** até começar a escrever.
+
+Com a placa alimentada por USB, deixe o pino 5V separado da saída externa do LM2596. Os periféricos podem usar o LM2596 com GND comum. Para alimentar a placa pelo LM2596, desconecte o USB e siga a documentação do modelo.

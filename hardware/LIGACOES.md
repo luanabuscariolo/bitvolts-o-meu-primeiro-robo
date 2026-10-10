@@ -151,3 +151,11 @@ Com USB conectado, mantenha o 5 V externo separado do pino 5V da placa, como des
 Para testar o divisor do ECHO com 5 V, mantenha ECHO e GPIO 5 desconectados dessa entrada temporária. Remova os 5 V e desligue a alimentação antes de fazer a ligação final ao sensor e ao GPIO.
 
 - [Divisor da bateria com retorno e filtro](diagramas/divisor-bateria.png)
+
+## Montagem sem solda
+
+A figura dos quatro nós amplia os terminais dos componentes; os pontos de uma mesma faixa precisam estar eletricamente unidos. Na PCB perfurada comum, isso exige fios e solda. Sem solda, use quatro blocos de distribuição separados, adequados à corrente: BAT+, 5 V, GND lógica e GND potência. Verifique na ficha do borne se os contactos são comuns ou se precisam de pontes; um bloco de terminais comum não une todos os parafusos automaticamente. Una apenas os dois GNDs.
+
+- [Exemplo do sensor e do divisor na protoboard](diagramas/sensor-sem-solda.png)
+
+Este exemplo marca os furos dos três resistores de 1 kΩ e completa VCC, GND e TRIG por terminais ampliados. Servo e motores usam conectores externos adequados, sem atravessar os contactos da protoboard. O mapa completo dos sinais continua a indicar as ligações dos restantes componentes.

@@ -19,6 +19,8 @@ Correções ao código que acompanha o livro. A versão do repositório correspo
 
 Verificação desta revisão: 13 de 13 sketches compilados para ESP32-S3, com esp32 3.3.11, ESP32Servo 3.2.1 e U8g2 2.36.19. Passaram também 14 cenários de lógica em C++ com periféricos, filas e relógio simulados. Esses cenários não são execução em hardware. A execução desta revisão no robô ainda precisa ser repetida.
 
+Ilustrações do barramento atualizadas com os componentes e terminais de cada nó. Acrescentado o exemplo do sensor e divisor na protoboard, com os furos identificados e orientação para blocos de distribuição sem solda.
+
 Mapas de sinais e alimentação sincronizados com o livro; divisor da bateria inclui BAT−, GND comum e filtro de 100 nF.
 
 ## [1.0.0] — 2026-10-08

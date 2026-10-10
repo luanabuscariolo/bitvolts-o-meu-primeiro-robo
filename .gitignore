@@ -1,0 +1,15 @@
+# Arduino / arduino-cli
+build/
+*.bin
+*.elf
+*.map
+*.hex
+.arduino15/
+
+# Editores e sistema
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini

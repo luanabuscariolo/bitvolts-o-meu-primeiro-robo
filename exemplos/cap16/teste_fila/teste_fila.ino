@@ -1,13 +1,18 @@
 /* ============================================================
    BitVolts — O meu primeiro robô · Capítulos 16 e 17
-   A fila, o cooldown e a preempção
+   A fila, o cooldown e a interrupção cooperativa
 
    Demonstra as três regras de comunicação entre os núcleos,
    sem sensor nem motor nenhum. Se entender este sketch,
-   entende o firmware inteiro.
+   pode observar este mecanismo antes do firmware completo.
    ============================================================ */
 
 #define COOLDOWN_MS 3000
+#define PASSOS_PROCESSAMENTO 10
+#define PAUSA_PASSO_MS 400
+
+// 10 * 400 = 4000 ms: com cooldown de 3000 ms, chega um novo recado
+// durante o trabalho. Para observar a conclusao, use cooldown de 6000 ms.
 
 QueueHandle_t fila;
 
@@ -52,9 +57,9 @@ void consumidor(void* p) {
 
       bool interrompido = false;
 
-      // Simula 5 passos lentos (como escrever palavra a palavra)
-      for (int i = 1; i <= 5; i++) {
-        vTaskDelay(pdMS_TO_TICKS(400));
+      // Simula 10 passos lentos (como escrever palavra a palavra)
+      for (int i = 1; i <= PASSOS_PROCESSAMENTO; i++) {
+        vTaskDelay(pdMS_TO_TICKS(PAUSA_PASSO_MS));
 
         // Espreita sem retirar: chegou coisa nova?
         int espreita;
@@ -75,12 +80,25 @@ void consumidor(void* p) {
 void setup() {
   Serial.begin(115200);
   delay(600);
-  Serial.println("\n=== Teste 11.2 — fila, cooldown, preempcao ===\n");
+  Serial.println("\n=== Fila, cooldown e interrupcao cooperativa ===\n");
 
   fila = xQueueCreate(1, sizeof(int));
+  if (fila == NULL) {
+    Serial.println("ERRO: nao foi possivel criar a fila.");
+    while (true) vTaskDelay(pdMS_TO_TICKS(1000));
+  }
 
-  xTaskCreatePinnedToCore(produtor,   "prod", 2048, NULL, 2, NULL, 0);
-  xTaskCreatePinnedToCore(consumidor, "cons", 4096, NULL, 1, NULL, 1);
+  TaskHandle_t handleProdutor = NULL, handleConsumidor = NULL;
+  BaseType_t criouProdutor = xTaskCreatePinnedToCore(
+    produtor, "prod", 2048, NULL, 2, &handleProdutor, 0);
+  BaseType_t criouConsumidor = xTaskCreatePinnedToCore(
+    consumidor, "cons", 4096, NULL, 1, &handleConsumidor, 1);
+  if (criouProdutor != pdPASS || criouConsumidor != pdPASS) {
+    if (criouProdutor == pdPASS) vTaskDelete(handleProdutor);
+    if (criouConsumidor == pdPASS) vTaskDelete(handleConsumidor);
+    Serial.println("ERRO: nao foi possivel criar as duas tarefas. Reinicie.");
+    while (true) vTaskDelay(pdMS_TO_TICKS(1000));
+  }
 }
 
 void loop() {

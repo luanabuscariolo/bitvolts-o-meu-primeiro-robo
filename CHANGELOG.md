@@ -2,6 +2,17 @@
 
 Correções ao código que acompanha o livro. A versão do repositório corresponde à edição do livro.
 
+## [Em revisão] — 2026-10-10
+
+- O evento de caminho livre permanece pendente até que o envio seja aceito.
+- A escrita do display respeita 21 caracteres por linha, divide palavras longas e continua frases maiores em novas páginas.
+- A seleção aleatória considera o tamanho de cada tabela de frases.
+- A apresentação consulta a fila durante as pausas e a pulsação dos LEDs.
+- O exemplo da fila passa a demonstrar interrupção cooperativa com processamento de 4000 ms e cooldown de 3000 ms; informa falhas de criação da fila e das tarefas.
+
+Verificação desta revisão: testes locais de lógica com periféricos simulados.
+A compilação para ESP32-S3 desta revisão e sua execução no robô ainda não foram repetidas; o registro abaixo corresponde à versão anterior.
+
 ## [1.0.0] — 2026-10-08
 
 Primeira versão pública, para a 1.ª edição de *BitVolts — O meu primeiro robô*.

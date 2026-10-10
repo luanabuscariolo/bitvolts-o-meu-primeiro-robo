@@ -37,7 +37,7 @@ No `teste_bateria` esse fator chama-se `FATOR_CALIB`; aqui chama-se `BAT_FATOR_C
 
 ### As frases
 
-Estão no topo do `cerebro.ino`, agrupadas por situação. Mude-as à vontade — é o que dá personalidade ao robô. **Escreva sem acentos**: o programa desenha o texto byte a byte, e uma letra acentuada ocupa dois bytes — no display aparecem símbolos estranhos no lugar dela.
+Estão no topo do `cerebro.ino`, agrupadas por situação. Mude-as ou acrescente variantes — a seleção usa a quantidade de cada tabela. O texto ocupa duas linhas de até 21 caracteres; frases maiores continuam em outra página. A navegação mantém sua tarefa enquanto o display escreve. **Escreva sem acentos**: o programa desenha o texto byte a byte, e uma letra acentuada ocupa dois bytes — no display aparecem símbolos estranhos no lugar dela.
 
 ### Ajustar o comportamento
 

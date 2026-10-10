@@ -8,6 +8,7 @@
    ============================================================ */
 
 #include <U8g2lib.h>
+#include <string.h>
 #include "config.h"
 #include "tipos.h"
 
@@ -77,17 +78,16 @@ static const char* frasesBateria[] = {
 };
 
 static const char* escolherFrase(Marcador m) {
-  int i = random(3);
   switch (m) {
-    case MARC_START:         return frasesStart[i];
-    case MARC_EXPLORE:       return frasesExplore[i];
-    case MARC_OBSTACLE:      return frasesObstacle[i];
-    case MARC_TURN_LEFT:     return frasesTurnLeft[i];
-    case MARC_TURN_RIGHT:    return frasesTurnRight[i];
-    case MARC_BACKUP:        return frasesBackup[i];
-    case MARC_STUCK:         return frasesStuck[i];
-    case MARC_CLEAR:         return frasesClear[i];
-    case MARC_BATERIA_FRACA: return frasesBateria[i];
+    case MARC_START:         return frasesStart[random(sizeof(frasesStart) / sizeof(frasesStart[0]))];
+    case MARC_EXPLORE:       return frasesExplore[random(sizeof(frasesExplore) / sizeof(frasesExplore[0]))];
+    case MARC_OBSTACLE:      return frasesObstacle[random(sizeof(frasesObstacle) / sizeof(frasesObstacle[0]))];
+    case MARC_TURN_LEFT:     return frasesTurnLeft[random(sizeof(frasesTurnLeft) / sizeof(frasesTurnLeft[0]))];
+    case MARC_TURN_RIGHT:    return frasesTurnRight[random(sizeof(frasesTurnRight) / sizeof(frasesTurnRight[0]))];
+    case MARC_BACKUP:        return frasesBackup[random(sizeof(frasesBackup) / sizeof(frasesBackup[0]))];
+    case MARC_STUCK:         return frasesStuck[random(sizeof(frasesStuck) / sizeof(frasesStuck[0]))];
+    case MARC_CLEAR:         return frasesClear[random(sizeof(frasesClear) / sizeof(frasesClear[0]))];
+    case MARC_BATERIA_FRACA: return frasesBateria[random(sizeof(frasesBateria) / sizeof(frasesBateria[0]))];
   }
   return "...";
 }
@@ -181,65 +181,93 @@ static void desenharRosto(Expressao e) {
 // Pulsam enquanto o cérebro trabalha. É o único LED que este
 // núcleo controla — os outros pertencem ao Core 0.
 
-static void amarelosPulsar(int passos) {
+static bool amarelosPulsar(int passos) {
   for (int b = 0; b <= 255; b += passos) {
+    Marcador espreita;
+    if (xQueuePeek(filaMarcadores, &espreita, 0) == pdTRUE) {
+      analogWrite(PIN_LED_AMARELOS, 0);
+      return false;
+    }
     analogWrite(PIN_LED_AMARELOS, b);
     vTaskDelay(pdMS_TO_TICKS(8));
   }
   for (int b = 255; b >= 0; b -= passos) {
+    Marcador espreita;
+    if (xQueuePeek(filaMarcadores, &espreita, 0) == pdTRUE) {
+      analogWrite(PIN_LED_AMARELOS, 0);
+      return false;
+    }
     analogWrite(PIN_LED_AMARELOS, b);
     vTaskDelay(pdMS_TO_TICKS(8));
   }
   analogWrite(PIN_LED_AMARELOS, 0);
+  return true;
 }
 
 // ---------- ESCRITA PALAVRA A PALAVRA ----------
 
-/* Escreve a frase acrescentando uma palavra de cada vez, para
-   dar a sensação de que está a ser pensada agora.
+// A interrupcao e cooperativa: verificamos a fila durante as pausas.
+static bool esperarApresentacao(unsigned long tempoMs) {
+  unsigned long inicio = millis();
+  for (;;) {
+    Marcador espreita;
+    if (xQueuePeek(filaMarcadores, &espreita, 0) == pdTRUE) return false;
+    unsigned long decorrido = millis() - inicio;
+    if (decorrido >= tempoMs) return true;
+    unsigned long restante = tempoMs - decorrido;
+    auto ticks = pdMS_TO_TICKS(restante > 20 ? 20 : restante);
+    vTaskDelay(ticks > 0 ? ticks : 1);
+  }
+}
 
-   Devolve false se um marcador novo chegou a meio — nesse caso
-   abandona a frase atual. É a PREEMPÇÃO: o presente ganha
-   sempre do passado.                                          */
+static void mostrarTexto(const char linhas[2][22], Expressao e) {
+  oled.clearBuffer();
+  desenharRosto(e);
+  oled.setFont(u8g2_font_6x10_tf);
+  if (linhas[1][0] == '\0') {
+    oled.drawStr(2, 56, linhas[0]);
+  } else {
+    oled.drawStr(2, 50, linhas[0]);
+    oled.drawStr(2, 62, linhas[1]);
+  }
+  oled.sendBuffer();
+}
+
+// Duas linhas de 21 caracteres. Frases maiores continuam na pagina seguinte.
+// Uma palavra que exceda a linha e dividida, sem perder caracteres.
 static bool escreverFrase(const char* frase, Expressao e) {
-  char buffer[96];
-  int pos = 0;
+  char linhas[2][22] = {{0}, {0}};
+  int linha = 0, pos = 0;
   const char* p = frase;
 
-  buffer[0] = '\0';
-
   while (*p) {
-    // copia até ao próximo espaço
-    while (*p && *p != ' ' && pos < 90) buffer[pos++] = *p++;
-    if (*p == ' ' && pos < 90) buffer[pos++] = *p++;
-    buffer[pos] = '\0';
+    while (*p == ' ') p++;
+    if (!*p) break;
+    size_t palavra = strcspn(p, " ");
 
-    oled.clearBuffer();
-    desenharRosto(e);
-    oled.setFont(u8g2_font_6x10_tf);
-
-    // quebra o texto em duas linhas se for longo
-    if (pos <= 21) {
-      oled.drawStr(2, 56, buffer);
-    } else {
-      char l1[24], l2[24];
-      int corte = 21;
-      while (corte > 0 && buffer[corte] != ' ') corte--;
-      strncpy(l1, buffer, corte); l1[corte] = '\0';
-      strncpy(l2, buffer + corte + 1, 23); l2[23] = '\0';
-      oled.drawStr(2, 50, l1);
-      oled.drawStr(2, 62, l2);
-    }
-    oled.sendBuffer();
-
-    // Espreita a fila sem retirar nada. Se há marcador novo,
-    // abandona esta frase imediatamente.
-    Marcador espreita;
-    if (xQueuePeek(filaMarcadores, &espreita, 0) == pdTRUE) {
-      return false;
+    // Move uma palavra inteira para a linha seguinte quando ela cabe nela.
+    if (pos && (pos == 21 || (palavra <= 21 && pos + 1 + palavra > 21))) {
+      if (linha == 0) linha = 1;
+      else { linha = 0; linhas[0][0] = linhas[1][0] = '\0'; }
+      pos = 0;
+    } else if (pos) {
+      linhas[linha][pos++] = ' ';
+      linhas[linha][pos] = '\0';
     }
 
-    vTaskDelay(pdMS_TO_TICKS(280));
+    while (palavra) {
+      if (pos == 21) {
+        if (linha == 0) linha = 1;
+        else { linha = 0; linhas[0][0] = linhas[1][0] = '\0'; }
+        pos = 0;
+      }
+      size_t n = palavra < size_t(21 - pos) ? palavra : size_t(21 - pos);
+      memcpy(linhas[linha] + pos, p, n);
+      pos += n; p += n; palavra -= n;
+      linhas[linha][pos] = '\0';
+      mostrarTexto(linhas, e);
+      if (!esperarApresentacao(280)) return false;
+    }
   }
   return true;
 }
@@ -278,7 +306,7 @@ void tarefaCerebro(void* param) {
       oled.sendBuffer();
 
       // Pulsa os amarelos: o cérebro está a trabalhar.
-      amarelosPulsar(15);
+      if (!amarelosPulsar(15)) continue;
 
       const char* frase = escolherFrase(m);
       bool completou = escreverFrase(frase, e);
@@ -289,7 +317,7 @@ void tarefaCerebro(void* param) {
       }
 
       // Deixa a frase no ecrã por um momento.
-      vTaskDelay(pdMS_TO_TICKS(1400));
+      esperarApresentacao(1400);
     }
   }
 }

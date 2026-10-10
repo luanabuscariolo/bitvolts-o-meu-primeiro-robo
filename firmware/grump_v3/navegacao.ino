@@ -29,20 +29,21 @@ static int tentativasDesvio = 0;
 
    Usa xQueueOverwrite: se já houver um marcador à espera, este
    substitui-o. O cérebro recebe sempre o mais recente.        */
-static void enviarMarcador(Marcador m, bool forcar = false) {
+static bool enviarMarcador(Marcador m, bool forcar = false) {
   unsigned long agora = millis();
 
   if (!forcar) {
-    if (m == ultimoMarcadorEnviado) return;
-    if (agora - ultimoMarcadorMs < COOLDOWN_MARCADOR_MS) return;
+    if (m == ultimoMarcadorEnviado) return false;
+    if (agora - ultimoMarcadorMs < COOLDOWN_MARCADOR_MS) return false;
   }
 
-  xQueueOverwrite(filaMarcadores, &m);
+  if (xQueueOverwrite(filaMarcadores, &m) != pdPASS) return false;
   ultimoMarcadorEnviado = m;
   ultimoMarcadorMs = agora;
 
   Serial.print("[corpo] -> ");
   Serial.println(nomeMarcador(m));
+  return true;
 }
 
 // ---------- LEDS ----------
@@ -322,8 +323,8 @@ void tarefaNavegacao(void* param) {
       desviarObstaculo();
       obstaculoAnterior = true;
     } else {
-      if (obstaculoAnterior) {
-        enviarMarcador(MARC_CLEAR);
+      // Se o cooldown ainda impedir o recado, tentamos no ciclo seguinte.
+      if (obstaculoAnterior && enviarMarcador(MARC_CLEAR)) {
         obstaculoAnterior = false;
       }
       motoresFrente(VEL_CRUZEIRO);

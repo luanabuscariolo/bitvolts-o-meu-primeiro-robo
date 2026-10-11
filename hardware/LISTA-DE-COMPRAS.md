@@ -6,13 +6,13 @@ Para imprimir e levar.
 
 ## Eletrónica principal
 
-- [ ] 1 placa de desenvolvimento ESP32-S3 compatível com DevKitC-1, módulo N16R8, pinagem conferida e pinos já instalados para a opção sem solda
+- [ ] 1 placa de desenvolvimento ESP32-S3 compatível com DevKitC-1, módulo N16R8, pinagem conferida
 - [ ] 1× Cabo USB-C de dados
 - [ ] 1× Display OLED SH1106 128×64 SPI (7 pinos)
 - [ ] 1× Sensor ultrassónico HC-SR04
 - [ ] 1× Servo SG90
 - [ ] 1× Ponte H L298N (módulo)
-- [ ] 1× Buzzer passivo
+- [ ] 1× Buzzer piezo passivo compatível com acionamento por GPIO de 3,3 V
 
 ## Mecânica
 
@@ -24,9 +24,8 @@ Para imprimir e levar.
 
 ## Alimentação
 
-- [ ] Conjunto de duas células de lítio em série, com corrente de descarga adequada e proteção compatível; escolha o tamanho pelo espaço disponível e pela ficha técnica
-- [ ] Escolha um pacote 2S protegido completo ou o conjunto de células equivalentes, suporte e proteção compatíveis; não compre células soltas adicionais se o pacote já as incluir
-- [ ] Carregador compatível com o conjunto escolhido: pacote 2S conforme fabricante, ou carregamento individual das células removidas do suporte
+- [ ] 1 bateria de íons de lítio 18650 2S, 7,4 V nominais, em pacote protegido; escolha a capacidade em mAh conforme autonomia e espaço e confira a corrente de descarga admitida
+- [ ] 1 carregador indicado para esse pacote de íons de lítio 2S, com final de carga em 8,4 V, corrente e conector compatíveis
 - [ ] 1× Módulo regulador LM2596
 - [ ] 1× Capacitor eletrolítico 1000 µF 25 V
 
@@ -43,12 +42,10 @@ Para imprimir e levar.
 
 - [ ] PCB perfurada: apenas se escolher a montagem soldada
 - [ ] Pinos macho 2,54 mm (uma tira)
-- [ ] Fios e bornes de potência especificados para bateria, motores e servo; jumpers para sinais e pequenas cargas
+- [ ] Fios adequados à corrente de bateria, motores e servo; jumpers para sinais e pequenas cargas
 - [ ] Fios jumper macho-macho, macho-fêmea e fêmea-fêmea
-- [ ] Blocos de parafuso pequenos, para a alimentação dos motores
 - [ ] Termorretrátil ou fita isoladora
-- [ ] Abraçadeiras pequenas
-- [ ] Protoboard e módulos com pinos já soldados para os testes sem solda
+- [ ] 1 protoboard para testes de sinais, divisores e pequenas cargas
 
 ## Ferramentas
 
@@ -61,7 +58,13 @@ Para imprimir e levar.
 
 ## Comprar em etapas
 
-As três etapas de compra e os testes possíveis com cada uma estão detalhados no capítulo 3 do livro. Use esta lista para conferir as quantidades e as especificações; não repita a compra de células se elas já vierem num pacote protegido completo.
+1. **Display, sons e LEDs:** placa, USB de dados, SH1106 SPI, piezo, seis LEDs, seis resistores de 220 Ω, protoboard, jumpers e multímetro.
+2. **Alimentação, sensor e servo:** pacote 2S e carregador, LM2596, capacitor de 1000 µF/25 V, HC-SR04, SG90, suporte do sensor, três resistores de 1 kΩ, um de 100 kΩ, um de 47 kΩ e capacitor de 100 nF. Prepare os fios da alimentação externa.
+3. **Motores e montagem:** chassi com motores, rodas e roda boba, L298N e fios de alimentação. Para o barramento soldado, acrescente placa perfurada, fio rígido, pinos e material de soldagem.
+
+O pacote de bateria já inclui as células. Não compre suporte ou células separados para essa opção. A montagem original usou um pacote reaproveitado de células 14500, 2S, 7,4 V e 500 mAh. O pacote 18650 recomendado para compra pode oferecer maior capacidade, mas tamanho e mAh não garantem a corrente de descarga necessária.
+
+A protoboard recebe os sinais e pequenas cargas. Não faça a corrente dos motores ou do servo atravessar seus contatos. Se uma peça recebida exigir pinos ou fios soldados, prepare-a com ajuda de alguém com prática antes do teste.
 
 ## Cuidados na compra
 
@@ -73,7 +76,7 @@ As três etapas de compra e os testes possíveis com cada uma estão detalhados 
 | Display | SH1106, não SSD1306. SPI, não I²C |
 | Buzzer | Passivo, não ativo |
 | Capacitor | 1000 µF, tensão nominal acima de 5 V; referência: 25 V |
-| Células | Modelo e corrente de descarga compatíveis, com proteção adequada |
+| Bateria | Pacote 2S de 7,4 V, capacidade, dimensões, corrente de descarga e proteção compatíveis |
 | Cabo USB | Que seja de dados |
 
 Confira essas características no anúncio e na ficha técnica antes de comprar.

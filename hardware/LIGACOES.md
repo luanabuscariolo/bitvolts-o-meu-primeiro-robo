@@ -144,7 +144,7 @@ O pino 5V passa a ser alimentado pelo LM2596.
 
 No LM2596, **IN+ / IN−** são a entrada da bateria; **OUT+ / OUT−** são a saída regulada de 5 V. Os negativos são comuns neste módulo. Confira as inscrições reais, pois a posição dos terminais varia.
 
-Nos mapas, **L** identifica o retorno da lógica e **P**, o retorno da potência. Uma ponte curta une os dois. Os pontos indicam conexões; arcos sobre outro fio indicam cruzamentos sem contato. Os terminais são ampliados para leitura e não representam a disposição no chassi.
+Os mapas mostram os fios nos terminais dos componentes. GND lógica e GND potência têm caminhos separados e uma ponte curta entre eles. Pontos marcam junções; cruzamentos sem ponto são fios separados, representados com um intervalo branco. A disposição é organizada para leitura e não representa o chassi. No mapa de sinais, E e D indicam os lados esquerdo e direito do robô; as alimentações e os motores são completados no mapa seguinte.
 
 Com USB conectado, mantenha o 5 V externo separado do pino 5V da placa, como descrito em [AMBIENTE.md](../docs/AMBIENTE.md).
 
@@ -154,8 +154,10 @@ Para testar o divisor do ECHO com 5 V, mantenha ECHO e GPIO 5 desconectados dess
 
 ## Montagem sem solda
 
-A figura dos quatro nós amplia os terminais dos componentes; os pontos de uma mesma faixa precisam estar eletricamente unidos. Na PCB perfurada comum, isso exige fios e solda. Sem solda, use quatro blocos de distribuição separados, adequados à corrente: BAT+, 5 V, GND lógica e GND potência. Verifique na ficha do borne se os contactos são comuns ou se precisam de pontes; um bloco de terminais comum não une todos os parafusos automaticamente. Una apenas os dois GNDs.
+A figura dos quatro nós amplia fileiras da placa perfurada e mostra os terminais que chegam a elas. Cada fileira precisa ser unida com fio e solda: os furos de uma perfboard comum são ilhas separadas. As duas vistas de GND lógica representam o mesmo nó. A montagem do barramento exige prática ou ajuda de alguém que saiba soldar.
+
+Os testes de sinais e pequenos componentes podem usar protoboard. Mantenha bateria, motores e servo em fios e conexões adequados à corrente, fora dos contatos da protoboard. Prepare previamente as peças que precisarem de fios ou pinos soldados.
 
 - [Exemplo do sensor e do divisor na protoboard](diagramas/sensor-sem-solda.png)
 
-Este exemplo marca os furos dos três resistores de 1 kΩ e completa VCC, GND e TRIG por terminais ampliados. Servo e motores usam conectores externos adequados, sem atravessar os contactos da protoboard. O mapa completo dos sinais continua a indicar as ligações dos restantes componentes.
+Este exemplo marca os furos dos três resistores de 1 kΩ e completa VCC, GND e TRIG nos terminais físicos dos componentes. Servo e motores usam conectores externos adequados, sem atravessar os contactos da protoboard. O mapa completo dos sinais continua a indicar as ligações dos restantes componentes.

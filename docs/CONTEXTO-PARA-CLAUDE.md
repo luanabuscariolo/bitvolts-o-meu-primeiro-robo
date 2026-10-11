@@ -1,5 +1,9 @@
 # Contexto da revisão do livro BitVolts para continuidade no Claude
 
+## Correção de escopo de 11/10 — prioridade sobre os registros abaixo
+
+A autora proibiu alterações do projeto e mandou retirar adições não autorizadas. O capacitor de 100 nF introduzido pelo assistente foi removido do divisor, figuras, listas, tabelas, ligações e comentário do exemplo. Também foi retirada a proposta de acrescentar uma fonte/regulador para os motores. O divisor original é 100 kΩ / 47 kΩ, com o meio no GPIO 1. O capacitor de 1000 µF permanece porque já existia. Os registros anteriores que mencionam o filtro ou um ramo adaptado descrevem um estado superado. Ver REMOCAO-DE-ADICOES-2026-10-11.md. Não modificar componentes, circuitos ou funcionalidades; tornar educativo o projeto recebido.
+
 ## Atualização de 11 de outubro de 2026 — ler primeiro
 
 A revisão manual posterior está concluída nesta rodada. O Word atual é **ROOT/outputs/BitVolts-livro-revisado-final.docx**, renderizado e conferido em **178 páginas**. O arquivo de 182 páginas descrito abaixo é a fonte preservada de 10/10. Consulte [Revisão manual de 11/10](REVISAO-MANUAL-2026-10-11.md) para todas as alterações desta rodada, hash do DOCX, evidências e pendências físicas. As 13 compilações e 14 testes simulados abaixo pertencem à etapa anterior; nenhum firmware foi modificado nesta rodada. A branch continua sendo codex/correcoes-bitvolts e o Word comercial permanece fora do repositório público.

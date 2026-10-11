@@ -1,5 +1,7 @@
 # Revisão manual BitVolts — 11 de outubro de 2026
 
+> Correção posterior de escopo: o capacitor de 100 nF e a proposta de regulador/fonte adicional para os motores foram retirados por terem sido acrescentados sem autorização. O hash abaixo identifica a entrega anterior, agora substituída. Consulte REMOCAO-DE-ADICOES-2026-10-11.md para o arquivo vigente e a regra de preservar o projeto original.
+
 ## Estado desta entrega
 
 Word: `ROOT/outputs/BitVolts-livro-revisado-final.docx`.

@@ -2,6 +2,13 @@
 
 Correções ao código que acompanha o livro. A versão do repositório corresponde à edição do livro.
 
+## [Correção de escopo] — 2026-10-11
+
+- Retirado o capacitor de 100 nF do divisor da bateria: foi introduzido na revisão sem fazer parte do projeto original. Removido das instruções, compras, comentário do teste e diagramas.
+- Retirada a proposta de uma fonte ou regulador adicional para os motores. Mantida a montagem original e a explicação de que é necessário conferir a tensão admissível dos motores.
+- O divisor original usa apenas os resistores de 100 kΩ e 47 kΩ, com o ponto entre eles no GPIO 1.
+- Nenhuma instrução executável de firmware foi alterada nesta correção. A revisão deve explicar o projeto existente; não acrescentar componentes, circuitos ou funcionalidades sem autorização expressa.
+
 ## [Em revisão] — 2026-10-10
 
 - Teste do servo começa no centro, com limites ampliados manualmente após conferência.
@@ -21,7 +28,7 @@ Verificação desta revisão: 13 de 13 sketches compilados para ESP32-S3, com es
 
 Ilustrações do barramento atualizadas com os componentes e terminais de cada nó. Acrescentado o exemplo do sensor e divisor na protoboard, com os furos identificados e orientação para blocos de distribuição sem solda.
 
-Mapas de sinais e alimentação sincronizados com o livro; divisor da bateria inclui BAT−, GND comum e filtro de 100 nF.
+Registro histórico: esta revisão chegou a incluir um filtro de 100 nF no divisor da bateria. Essa adição indevida foi retirada na correção de escopo de 11/10 acima.
 
 ## [1.0.0] — 2026-10-08
 

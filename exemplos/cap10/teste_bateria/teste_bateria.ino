@@ -2,7 +2,7 @@
    BitVolts — O meu primeiro robô
    Capítulo 10 · Teste 9 — O monitor de bateria
 
-   Ligações: Figura 46 do livro. Divisor 100 kΩ (BAT+) / 47 kΩ (GND) com o meio no GPIO 1; 100 nF entre GPIO 1 e GND.
+   Ligações: Figura 49 do livro. Divisor 100 kΩ (BAT+) / 47 kΩ (GND) com o meio no GPIO 1.
    Monte com a energia desligada. Confira antes de energizar.
    ============================================================ */
 

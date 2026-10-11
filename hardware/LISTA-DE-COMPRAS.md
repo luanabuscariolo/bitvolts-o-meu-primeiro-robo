@@ -17,7 +17,7 @@ Para imprimir e levar.
 ## Mecânica
 
 - [ ] 1× Chassi 2WD
-- [ ] 2 motores DC com redução e rodas compatíveis. Para BAT+ no VS do L298N, confirme alimentação máxima de 8,4 V; motores TT de 3–6 V exigem o ramo regulado específico do capítulo 5
+- [ ] 2 motores DC com redução e rodas compatíveis. Confira a tensão admitida: na montagem original, BAT+ alimenta VS do L298N e a bateria 2S chega a 8,4 V carregada; veja o capítulo 5
 - [ ] 2× Roda para motor TT
 - [ ] 1× Roda boba
 - [ ] 1× Suporte para o sensor no servo
@@ -35,7 +35,6 @@ Para imprimir e levar.
 - [ ] 6× Resistor 220 Ω
 - [ ] 3× Resistor 1 kΩ
 - [ ] 1× Resistor 100 kΩ
-- [ ] 1 capacitor cerâmico de 100 nF para o filtro de leitura da bateria
 - [ ] 1× Resistor 47 kΩ
 
 ## Montagem
@@ -59,7 +58,7 @@ Para imprimir e levar.
 ## Comprar em etapas
 
 1. **Display, sons e LEDs:** placa, USB de dados, SH1106 SPI, piezo, seis LEDs, seis resistores de 220 Ω, protoboard, jumpers e multímetro.
-2. **Alimentação, sensor e servo:** pacote 2S e carregador, LM2596, capacitor de 1000 µF/25 V, HC-SR04, SG90, suporte do sensor, três resistores de 1 kΩ, um de 100 kΩ, um de 47 kΩ e capacitor de 100 nF. Prepare os fios da alimentação externa.
+2. **Alimentação, sensor e servo:** pacote 2S e carregador, LM2596, capacitor de 1000 µF/25 V, HC-SR04, SG90, suporte do sensor, três resistores de 1 kΩ, um de 100 kΩ e um de 47 kΩ. Prepare os fios da alimentação externa.
 3. **Motores e montagem:** chassi com motores, rodas e roda boba, L298N e fios de alimentação. Para o barramento soldado, acrescente placa perfurada, fio rígido, pinos e material de soldagem.
 
 O pacote de bateria já inclui as células. Não compre suporte ou células separados para essa opção. A montagem original usou um pacote reaproveitado de células 14500, 2S, 7,4 V e 500 mAh. O pacote 18650 recomendado para compra pode oferecer maior capacidade, mas tamanho e mAh não garantem a corrente de descarga necessária.

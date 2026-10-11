@@ -42,7 +42,7 @@ O GPIO 3 é um pino de configuração de arranque (strapping) e não deve ser tr
 |---|---|
 | Entrada | Bateria positivo |
 | Saída | LM2596 IN+ |
-| Saída | L298N VS/12V: somente com motores compatíveis com até 8,4 V; caso contrário, adaptar a fonte dos motores |
+| Saída | L298N VS/12V: BAT+ na montagem original; confira a compatibilidade dos motores com até 8,4 V |
 | Saída | R1 (100 kΩ) do monitor de bateria |
 
 ## Trilho 5 V lógica
@@ -73,7 +73,6 @@ O GPIO 3 é um pino de configuração de arranque (strapping) e não deve ser tr
 | Divisor da bateria | R2, perna livre |
 | Capacitor | Terminal negativo (−), marcado pela faixa no corpo |
 | 6 LEDs | Cátodos; conferir a face achatada ou a ficha se as pernas foram cortadas |
-| Filtro ADC 100 nF | Uma perna ao GPIO 1; a outra ao GND lógica |
 
 ## Trilho GND potência
 
@@ -93,7 +92,7 @@ Ponte: um fio grosso e curto entre GND potência e GND lógica.
 
 | De | Para |
 |---|---|
-| Fonte dos motores | L298N VS/12V. BAT+ só com motores compatíveis até 8,4 V; senão, fonte regulada adequada |
+| Fonte dos motores | BAT+ no L298N VS/12V, na montagem original. Confira a tensão admitida pelos motores: bateria 2S até 8,4 V |
 | L298N OUT1 + OUT2 | Motor esquerdo |
 | L298N OUT3 + OUT4 | Motor direito |
 
@@ -150,7 +149,7 @@ Com USB conectado, mantenha o 5 V externo separado do pino 5V da placa, como des
 
 Para testar o divisor do ECHO com 5 V, mantenha ECHO e GPIO 5 desconectados dessa entrada temporária. Remova os 5 V e desligue a alimentação antes de fazer a ligação final ao sensor e ao GPIO.
 
-- [Divisor da bateria com retorno e filtro](diagramas/divisor-bateria.png)
+- [Divisor da bateria com retorno comum](diagramas/divisor-bateria.png)
 
 ## Montagem sem solda
 

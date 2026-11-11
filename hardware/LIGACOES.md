@@ -11,7 +11,7 @@ Referência completa, fio a fio. Vale imprimir e riscar cada linha à medida que
 | GPIO | Vai para | Componente |
 |---|---|---|
 | 1 | Fio do meio do divisor 100k/47k | Monitor de bateria |
-| 2 | Resistor 220 Ω → ânodo | LED vermelho direito |
+| 2 | Resistência de 220 Ω → ânodo | LED vermelho direito |
 | 4 | TRIG | HC-SR04 |
 | 5 | Fio do meio do divisor 1k/1k/1k | HC-SR04 ECHO |
 | 6 | Fio laranja | Servo SG90 |
@@ -27,10 +27,10 @@ Referência completa, fio a fio. Vale imprimir e riscar cada linha à medida que
 | 17 | IN2 | L298N |
 | 18 | IN3 | L298N |
 | 21 | IN4 | L298N |
-| 39 | Dois ramos em paralelo, cada um com resistor 220 Ω + LED | LEDs amarelos |
-| 40 | Resistor 220 Ω → ânodo | LED verde esquerdo |
-| 41 | Resistor 220 Ω → ânodo | LED verde direito |
-| 42 | Resistor 220 Ω → ânodo | LED vermelho esquerdo |
+| 39 | Dois ramos em paralelo, cada um com resistência de 220 Ω + LED | LEDs amarelos |
+| 40 | Resistência de 220 Ω → ânodo | LED verde esquerdo |
+| 41 | Resistência de 220 Ω → ânodo | LED verde direito |
+| 42 | Resistência de 220 Ω → ânodo | LED vermelho esquerdo |
 
 O GPIO 3 é um pino de configuração de arranque (strapping) e não deve ser tratado como livre para qualquer ligação. Antes de expandir, confira os pinos reservados, a memória do módulo, a USB nativa e a documentação da sua placa.
 
@@ -56,7 +56,7 @@ O GPIO 3 é um pino de configuração de arranque (strapping) e não deve ser tr
 | Saída | HC-SR04 VCC |
 | Saída | Servo fio vermelho |
 | Saída | L298N pino 5V |
-| Saída | Capacitor 1000 µF, terminal positivo (+) |
+| Saída | Condensador 1000 µF, terminal positivo (+) |
 
 ## Trilho GND lógica
 
@@ -71,7 +71,7 @@ O GPIO 3 é um pino de configuração de arranque (strapping) e não deve ser tr
 | Buzzer | Pino − |
 | Divisor do ECHO | R3, perna livre |
 | Divisor da bateria | R2, perna livre |
-| Capacitor | Terminal negativo (−), marcado pela faixa no corpo |
+| Condensador | Terminal negativo (−), marcado pela faixa no corpo |
 | 6 LEDs | Cátodos; conferir a face achatada ou a ficha se as pernas foram cortadas |
 
 ## Trilho GND potência
@@ -107,7 +107,7 @@ Ponte: um fio grosso e curto entre GND potência e GND lógica.
 
 ## Divisores
 
-ECHO — proteção do GPIO 5: três resistores de 1 kΩ em série.
+ECHO — proteção do GPIO 5: três resistências de 1 kΩ em série.
 
 **Divisor do ECHO**
 
@@ -159,4 +159,4 @@ Os testes de sinais e pequenos componentes podem usar protoboard. Mantenha bater
 
 - [Exemplo do sensor e do divisor na protoboard](diagramas/sensor-sem-solda.png)
 
-Este exemplo marca os furos dos três resistores de 1 kΩ e completa VCC, GND e TRIG nos terminais físicos dos componentes. Servo e motores usam conectores externos adequados, sem atravessar os contactos da protoboard. O mapa completo dos sinais continua a indicar as ligações dos restantes componentes.
+Este exemplo marca os furos dos três resistências de 1 kΩ e completa VCC, GND e TRIG nos terminais físicos dos componentes. Servo e motores usam conectores externos adequados, sem atravessar os contactos da protoboard. O mapa completo dos sinais continua a indicar as ligações dos restantes componentes.

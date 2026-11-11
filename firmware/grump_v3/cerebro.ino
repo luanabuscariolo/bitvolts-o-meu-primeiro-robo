@@ -37,14 +37,14 @@ static const char* frasesStart[] = {
   "ah. e estamos de volta."
 };
 static const char* frasesExplore[] = {
-  "andando. nada de novo.",
+  "a andar. nada de novo.",
   "isto aqui e um corredor.",
   "que paisagem fascinante."
 };
 static const char* frasesObstacle[] = {
-  "tinha algo ai. claro.",
+  "havia algo ai. claro.",
   "parede. previsivel.",
-  "opa. que surpresa."
+  "ora. que surpresa."
 };
 static const char* frasesTurnLeft[] = {
   "esquerda entao.",
@@ -57,14 +57,14 @@ static const char* frasesTurnRight[] = {
   "a direita esta mais livre."
 };
 static const char* frasesBackup[] = {
-  "recuando. otimo.",
+  "a recuar. otimo.",
   "para tras. de novo.",
-  "marcha a re, que elegante."
+  "marcha-atras, que elegante."
 };
 static const char* frasesStuck[] = {
   "estou preso. perfeito.",
   "sem saida. adorei.",
-  "alguem me tira daqui."
+  "alguem que me tire daqui."
 };
 static const char* frasesClear[] = {
   "livre. finalmente.",
@@ -72,8 +72,8 @@ static const char* frasesClear[] = {
   "olha, da para andar."
 };
 static const char* frasesBateria[] = {
-  "sem bateria. tchau.",
-  "acabou. me carregue.",
+  "sem bateria. ate logo.",
+  "acabou. carreguem-me.",
   "energia no fim. adeus."
 };
 

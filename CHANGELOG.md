@@ -2,6 +2,12 @@
 
 Correções ao código que acompanha o livro. A versão do repositório corresponde à edição do livro.
 
+## [Português europeu] — 2026-11-11
+
+- Frases do robô, mensagens do monitor série e do display passadas para português europeu («a andar», «a recuar», «varrimento», «8 notas a subir»).
+- Terminologia: «condensador» em vez de «capacitor» e «resistência» em vez de «resistor» na lista de compras, nas ligações e no README.
+- Nenhuma lógica, pino ou constante foi alterada: só texto dentro de aspas, comentários e documentação.
+
 ## [Correção de escopo] — 2026-10-11
 
 - Retirado o capacitor de 100 nF do divisor da bateria: foi introduzido na revisão sem fazer parte do projeto original. Removido das instruções, compras, comentário do teste e diagramas.

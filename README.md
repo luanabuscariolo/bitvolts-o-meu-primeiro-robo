@@ -34,7 +34,7 @@ Este repositório **acompanha o livro**: aqui está o código pronto a gravar, c
 | 16 e 17 — Fila e travas | `teste_fila` | [exemplos/cap16](exemplos/cap16) |
 | 19 e 20 — Firmware completo e ajustes | `grump_v3` | [firmware/grump_v3](firmware/grump_v3) |
 
-Os testes do capítulo 10 que não precisam de programa próprio — a placa a arrancar com bateria (teste 1) e o capacitor (teste 8) — estão descritos só no livro.
+Os testes do capítulo 10 que não precisam de programa próprio — a placa a arrancar com bateria (teste 1) e o condensador (teste 8) — estão descritos só no livro.
 
 ---
 

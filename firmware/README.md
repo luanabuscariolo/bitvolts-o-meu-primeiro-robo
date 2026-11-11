@@ -61,9 +61,9 @@ Mude **uma de cada vez**, grave e observe.
 ### Comportamentos que devem ser conferidos
 
 - Sem eco ou distância fora da faixa de 2–400 cm: motores param e o sensor é consultado novamente. Ausência de eco pode significar distância grande, superfície que não reflete bem ou falha de ligação; não comprova caminho livre.
-- Na varredura, ambos os lados precisam ter uma leitura válida para escolher a direção.
+- No varrimento, ambos os lados precisam ter uma leitura válida para escolher a direção.
 - A bateria é medida antes do primeiro movimento e nas verificações periódicas. Manobras podem atrasar a próxima leitura; a proteção 2S continua necessária.
 - Se a fila ou uma tarefa não puder ser criada, os motores permanecem desabilitados. As tarefas só iniciam depois de ambas terem sido criadas.
-- As pausas da navegação cedem tempo ao sistema, mas o sensor não é lido continuamente durante a ré, a varredura, os sons e a curva. Use piso livre, longe de bordas e escadas.
+- As pausas da navegação cedem tempo ao sistema, mas o sensor não é lido continuamente durante a marcha-atrás, o varrimento, os sons e a curva. Use piso livre, longe de bordas e escadas.
 
 A fila transmite somente `Marcador`, um evento por item. Esta versão não usa uma estrutura global compartilhada entre as tarefas.

@@ -27,15 +27,15 @@ Para imprimir e levar.
 - [ ] 1 bateria de íons de lítio 18650 2S, 7,4 V nominais, em pacote protegido; escolha a capacidade em mAh conforme autonomia e espaço e confira a corrente de descarga admitida
 - [ ] 1 carregador indicado para esse pacote de íons de lítio 2S, com final de carga em 8,4 V, corrente e conector compatíveis
 - [ ] 1× Módulo regulador LM2596
-- [ ] 1× Capacitor eletrolítico 1000 µF 25 V
+- [ ] 1× Condensador eletrolítico 1000 µF 25 V
 
 ## Componentes passivos
 
 - [ ] 6× LED 5 mm — 2 verdes, 2 vermelhos, 2 amarelos
-- [ ] 6× Resistor 220 Ω
-- [ ] 3× Resistor 1 kΩ
-- [ ] 1× Resistor 100 kΩ
-- [ ] 1× Resistor 47 kΩ
+- [ ] 6× Resistência de 220 Ω
+- [ ] 3× Resistência de 1 kΩ
+- [ ] 1× Resistência de 100 kΩ
+- [ ] 1× Resistência de 47 kΩ
 
 ## Montagem
 
@@ -57,8 +57,8 @@ Para imprimir e levar.
 
 ## Comprar em etapas
 
-1. **Display, sons e LEDs:** placa, USB de dados, SH1106 SPI, piezo, seis LEDs, seis resistores de 220 Ω, protoboard, jumpers e multímetro.
-2. **Alimentação, sensor e servo:** pacote 2S e carregador, LM2596, capacitor de 1000 µF/25 V, HC-SR04, SG90, suporte do sensor, três resistores de 1 kΩ, um de 100 kΩ e um de 47 kΩ. Prepare os fios da alimentação externa.
+1. **Display, sons e LEDs:** placa, USB de dados, SH1106 SPI, piezo, seis LEDs, seis resistências de 220 Ω, protoboard, jumpers e multímetro.
+2. **Alimentação, sensor e servo:** pacote 2S e carregador, LM2596, condensador de 1000 µF/25 V, HC-SR04, SG90, suporte do sensor, três resistências de 1 kΩ, um de 100 kΩ e um de 47 kΩ. Prepare os fios da alimentação externa.
 3. **Motores e montagem:** chassi com motores, rodas e roda boba, L298N e fios de alimentação. Para o barramento soldado, acrescente placa perfurada, fio rígido, pinos e material de soldagem.
 
 O pacote de bateria já inclui as células. Não compre suporte ou células separados para essa opção. A montagem original usou um pacote reaproveitado de células 14500, 2S, 7,4 V e 500 mAh. O pacote 18650 recomendado para compra pode oferecer maior capacidade, mas tamanho e mAh não garantem a corrente de descarga necessária.
@@ -74,7 +74,7 @@ A protoboard recebe os sinais e pequenas cargas. Não faça a corrente dos motor
 | Placa | Que é S3 e N16R8 |
 | Display | SH1106, não SSD1306. SPI, não I²C |
 | Buzzer | Passivo, não ativo |
-| Capacitor | 1000 µF, tensão nominal acima de 5 V; referência: 25 V |
+| Condensador | 1000 µF, tensão nominal acima de 5 V; referência: 25 V |
 | Bateria | Pacote 2S de 7,4 V, capacidade, dimensões, corrente de descarga e proteção compatíveis |
 | Cabo USB | Que seja de dados |
 

@@ -12,7 +12,7 @@ int escala[] = {262, 294, 330, 349, 392, 440, 494, 523};
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("Deve ouvir 8 notas subindo.");
+  Serial.println("Deve ouvir 8 notas a subir.");
 }
 
 void loop() {

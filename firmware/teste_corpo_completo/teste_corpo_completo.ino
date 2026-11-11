@@ -229,7 +229,7 @@ void desviarObstaculo() {
   somObstaculo();
   delay(400);
 
-  mostrarNoDisplay(OLHOS_SURPRESO, "recuando...");
+  mostrarNoDisplay(OLHOS_SURPRESO, "a recuar...");
   motoresRe(VEL_MANOBRA);
   delay(TEMPO_RE_MS);
   motoresParar();
@@ -238,7 +238,7 @@ void desviarObstaculo() {
   float distDir = medirNoAngulo(ANG_DIREITA, ANG_ESQUERDA);
   medirNoAngulo(ANG_CENTRO, ANG_DIREITA);
 
-  Serial.print("varredura  esq=");
+  Serial.print("varrimento  esq=");
   Serial.print(distEsq, 0);
   Serial.print(" cm  dir=");
   Serial.print(distDir, 0);
@@ -246,7 +246,7 @@ void desviarObstaculo() {
 
   if (distEsq < 0 || distDir < 0) {
     mostrarNoDisplay(OLHOS_CANSADO, "sem leitura valida.", "confira o sensor.");
-    Serial.println("Varredura sem leitura válida; motores parados.");
+    Serial.println("Varrimento sem leitura válida; motores parados.");
     return;
   }
 
@@ -345,7 +345,7 @@ void loop() {
     if (vRepouso < BAT_V_FRACA) {
       ledsParar();
       mostrarNoDisplay(OLHOS_CANSADO, "sem bateria.", "me carregue.");
-      Serial.println("BATERIA FRACA antes do teste de carga — parando.");
+      Serial.println("BATERIA FRACA antes do teste de carga — a parar.");
       while (true) { somBateriaFraca(); delay(2500); }
     }
 
@@ -373,7 +373,7 @@ void loop() {
       motoresParar();
       ledsParar();
       mostrarNoDisplay(OLHOS_CANSADO, "sem bateria.", "me carregue.");
-      Serial.println("BATERIA FRACA — parando.");
+      Serial.println("BATERIA FRACA — a parar.");
       while (true) { somBateriaFraca(); delay(2500); }
     }
   }
@@ -404,7 +404,7 @@ void loop() {
     }
     motoresFrente(VEL_CRUZEIRO);
     ledsFrente();
-    mostrarNoDisplay(OLHOS_ENTEDIADO, "andando por ai.");
+    mostrarNoDisplay(OLHOS_ENTEDIADO, "a andar por ai.");
   }
 
   delay(150);

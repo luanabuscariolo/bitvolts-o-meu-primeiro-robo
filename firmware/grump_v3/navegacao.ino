@@ -212,7 +212,7 @@ static void desviarObstaculo() {
   float distDir = medirNoAngulo(ANG_DIREITA, ANG_ESQUERDA);
   medirNoAngulo(ANG_CENTRO, ANG_DIREITA);   // volta ao centro
 
-  Serial.print("[corpo] varredura  esq=");
+  Serial.print("[corpo] varrimento  esq=");
   Serial.print(distEsq, 0);
   Serial.print(" cm  dir=");
   Serial.print(distDir, 0);
@@ -220,7 +220,7 @@ static void desviarObstaculo() {
 
   if (distEsq < 0 || distDir < 0) {
     // Não escolhe um lado com base numa leitura que não existe.
-    Serial.println("[corpo] varredura sem leitura válida; motores parados.");
+    Serial.println("[corpo] varrimento sem leitura válida; motores parados.");
     return;
   }
 
